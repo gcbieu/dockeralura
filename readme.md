@@ -34,9 +34,7 @@ Este projeto é uma API desenvolvida com FastAPI para gerenciar alunos, cursos e
 
 4. **Instale as dependências:**
    ```sh* master
-   origin  https://github.com/gcbieu/Aula-alura.git (fetch)
-   origin  https://github.com/gcbieu/Aula-alura.git (push)
-   
+
    pip install -r requirements.txt
    ```
 
