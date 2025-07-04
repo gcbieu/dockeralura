@@ -1,0 +1,16 @@
+# A tag 'version' não é mais necessária nas versões modernas do Docker Compose.
+services:
+  api:
+    # Constrói a imagem a partir do Dockerfile no diretório atual
+    build: .
+    container_name: gco
+    # Mapeia a porta 8000 do host para a porta 8000 do container
+    ports:
+      - "8000:8000"
+    # Monta o diretório atual no container para que as alterações no código
+    # sejam refletidas instantaneamente (hot-reload).
+    volumes:
+      - .:/app
+    # Comando explícito para iniciar a aplicação. Sobrepõe o CMD do Dockerfile
+    # e garante que o hot-reload esteja ativo.
+    command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload
