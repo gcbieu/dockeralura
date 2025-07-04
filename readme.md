@@ -8,13 +8,10 @@ Este projeto é uma API desenvolvida com FastAPI para gerenciar alunos, cursos e
 - [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/get-started/)
 
-## Passos para rodar o projeto localmente
+## Passos para subir o projeto
 
-1. **Clone este repositório:**
-   ```sh
-   git clone https://github.com/gcbieu/Aula-alura.git
-   cd Aula-alura
-   ```
+1. **Faça o download do repositório:**
+   [Clique aqui para realizar o download](https://github.com/guilhermeonrails/imersao-devops/archive/refs/heads/main.zip)
 
 2. **Crie um ambiente virtual:**
    ```sh
