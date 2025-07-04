@@ -8,10 +8,13 @@ Este projeto é uma API desenvolvida com FastAPI para gerenciar alunos, cursos e
 - [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/get-started/)
 
-## Passos para subir o projeto
+## Passos para rodar o projeto localmente
 
-1. **Faça o download do repositório:**
-   [Clique aqui para realizar o download](https://github.com/guilhermeonrails/imersao-devops/archive/refs/heads/main.zip)
+1. **Clone este repositório:**
+   ```sh
+   git clone https://github.com/gcbieu/Aula-alura.git
+   cd Aula-alura
+   ```
 
 2. **Crie um ambiente virtual:**
    ```sh
@@ -33,8 +36,7 @@ Este projeto é uma API desenvolvida com FastAPI para gerenciar alunos, cursos e
      ```
 
 4. **Instale as dependências:**
-   ```sh* master
-
+   ```sh
    pip install -r requirements.txt
    ```
 
@@ -51,8 +53,6 @@ Este projeto é uma API desenvolvida com FastAPI para gerenciar alunos, cursos e
    Aqui você pode testar todos os endpoints da API de forma interativa.
 
 ---
-
-PALAVRA CHAVE: MARVEL
 
 ## Estrutura do Projeto
 

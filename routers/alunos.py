@@ -99,7 +99,7 @@ def delete_aluno(aluno_id: int, db: Session = Depends(get_db)):
     db.commit()
     return aluno_deletado
 
-@alunos_router.get("/alunos/nome/{nome_aluno}", response_model=Union[Aluno, List[Aluno]]) 
+@alunos_router.get("/alunos/nome/{nome_aluno}", response_model=List[Aluno]) 
 def read_aluno_por_nome(nome_aluno: str, db: Session = Depends(get_db)):
     """
     Busca alunos pelo nome (parcial ou completo).
@@ -111,16 +111,12 @@ def read_aluno_por_nome(nome_aluno: str, db: Session = Depends(get_db)):
         HTTPException: 404 - Nenhum aluno encontrado com esse nome.
         
     Returns:
-        Union[Aluno, List[Aluno]]: Um único objeto `Aluno` se houver apenas uma correspondência, 
-        ou uma lista de `Aluno` se houver várias correspondências.
+        List[Aluno]: Uma lista de alunos que correspondem ao nome.
     """
     db_alunos = db.query(ModelAluno).filter(ModelAluno.nome.ilike(f"%{nome_aluno}%")).all() # ilike para case-insensitive
 
     if not db_alunos:
         raise HTTPException(status_code=404, detail="Nenhum aluno encontrado com esse nome")
-
-    if len(db_alunos) == 1:  # Retorna um único Aluno se houver apenas uma correspondência
-        return Aluno.from_orm(db_alunos[0])
 
     return [Aluno.from_orm(aluno) for aluno in db_alunos]
 

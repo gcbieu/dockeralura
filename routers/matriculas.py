@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
 from typing import List, Dict, Union
+from sqlalchemy.orm import Session, joinedload
 from schemas import Matricula
 from models import Matricula as ModelMatricula, Aluno as ModelAluno, Curso as ModelCurso # Importe os modelos
 from database import get_db
@@ -26,8 +26,11 @@ def create_matricula(matricula: Matricula, db: Session = Depends(get_db)):
 
 @matriculas_router.get("/matriculas/aluno/{nome_aluno}", response_model=Dict[str, Union[str, List[str]]])
 def read_matriculas_por_nome_aluno(nome_aluno: str, db: Session = Depends(get_db)):
-    db_aluno = db.query(ModelAluno).filter(ModelAluno.nome.ilike(f"%{nome_aluno}%")).first()
-
+    # Otimização: Carrega o aluno junto com suas matrículas e os cursos associados em uma única consulta.
+    db_aluno = db.query(ModelAluno).options(
+        joinedload(ModelAluno.matriculas).joinedload(ModelMatricula.curso)
+    ).filter(ModelAluno.nome.ilike(f"%{nome_aluno}%")).first()
+    
     if not db_aluno:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Aluno não encontrado")
 
@@ -45,7 +48,10 @@ def read_matriculas_por_nome_aluno(nome_aluno: str, db: Session = Depends(get_db
 @matriculas_router.get("/matriculas/curso/{codigo_curso}", response_model=Dict[str, Union[str, List[str]]])
 def read_alunos_matriculados_por_codigo_curso(codigo_curso: str, db: Session = Depends(get_db)):
     """Retorna o nome do curso e uma lista com os nomes dos alunos matriculados."""
-    db_curso = db.query(ModelCurso).filter(ModelCurso.codigo == codigo_curso).first()
+    # Otimização: Carrega o curso junto com suas matrículas e os alunos associados em uma única consulta.
+    db_curso = db.query(ModelCurso).options(
+        joinedload(ModelCurso.matriculas).joinedload(ModelMatricula.aluno)
+    ).filter(ModelCurso.codigo == codigo_curso).first()
 
     if not db_curso:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Curso não encontrado")
